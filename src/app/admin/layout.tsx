@@ -14,6 +14,8 @@ export default function AdminLayout({
                         <a href="/admin/dashboard" className="text-base-content/70 hover:text-indigo-600 hover:scale-105 transition-all cursor-pointer">Tickets</a>
                         <a href="/admin/organizations" className="text-base-content/70 hover:text-indigo-600 hover:scale-105 transition-all cursor-pointer">Organizations</a>
                         <a href="/admin/clients" className="text-base-content/70 hover:text-indigo-600 hover:scale-105 transition-all cursor-pointer">Clients</a>
+                        <a href="/admin/partners" className="text-base-content/70 hover:text-indigo-600 hover:scale-105 transition-all cursor-pointer">Partners</a>
+                        <a href="/admin/homepage-settings" className="text-base-content/70 hover:text-indigo-600 hover:scale-105 transition-all cursor-pointer">Homepage</a>
                     </div>
                 </div>
                 <div className="flex-none gap-6 items-center flex">

@@ -47,3 +47,31 @@ export const tickets = sqliteTable('tickets', {
         .default(sql`CURRENT_TIMESTAMP`)
         .notNull(),
 });
+
+// Partners Table: Dynamic OEM Partner Management
+export const partners = sqliteTable('partners', {
+    id: text('id').primaryKey(),
+    name: text('name').notNull(),
+    logoUrl: text('logo_url').notNull(),
+    hoverColor: text('hover_color').default('hover:text-blue-600').notNull(), // Tailwind color class
+    order: integer('order').default(0).notNull(),
+    isActive: integer('is_active', { mode: 'boolean' }).default(true).notNull(),
+    createdAt: integer('created_at', { mode: 'timestamp' })
+        .default(sql`CURRENT_TIMESTAMP`)
+        .notNull(),
+});
+
+// Homepage Settings Table: Customize header, footer, and branding
+export const homepageSettings = sqliteTable('homepage_settings', {
+    id: text('id').primaryKey(),
+    headerTitle: text('header_title').default('Your Trusted Partner in').notNull(),
+    headerHighlight: text('header_highlight').default('IT Infrastructure').notNull(),
+    headerSubtitle: text('header_subtitle').default('Official partners for Acer, HP, RDP, and Prodot. Providing seamless, scalable support for government and corporate sectors.').notNull(),
+    footerText: text('footer_text').default('© 2025 Sibin Tech Solutions. All rights reserved.').notNull(),
+    primaryLogoUrl: text('primary_logo_url'),
+    faviconUrl: text('favicon_url'),
+    isActive: integer('is_active', { mode: 'boolean' }).default(true).notNull(),
+    updatedAt: integer('updated_at', { mode: 'timestamp' })
+        .default(sql`CURRENT_TIMESTAMP`)
+        .notNull(),
+});

@@ -1,6 +1,36 @@
 import Link from "next/link";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { getDb } from "../db";
+import { partners, homepageSettings } from "../db/schema";
+import { eq } from "drizzle-orm";
 
-export default function Home() {
+export default async function Home() {
+	const { env } = await getCloudflareContext();
+	const db = getDb(env as any);
+
+	// Fetch partners and settings (gracefully handle missing tables)
+	let allPartners = [];
+	let settings = null;
+
+	try {
+		allPartners = await db.select().from(partners).where(eq(partners.isActive, true)).all();
+	} catch (err) {
+		console.log("Partners table not yet created or empty");
+	}
+
+	try {
+		const settingsArray = await db.select().from(homepageSettings).all();
+		settings = settingsArray[0];
+	} catch (err) {
+		console.log("Homepage settings table not yet created");
+	}
+
+	// Default values if no settings exist
+	const headerTitle = settings?.headerTitle || "Your Trusted Partner in";
+	const headerHighlight = settings?.headerHighlight || "IT Infrastructure";
+	const headerSubtitle = settings?.headerSubtitle || "Official partners for Acer, HP, RDP, and Prodot. Providing seamless, scalable support for government and corporate sectors.";
+	const footerText = settings?.footerText || "© 2025 Sibin Tech Solutions. All rights reserved.";
+
 	return (
 		<div className="min-h-screen bg-base-100 flex flex-col font-sans overflow-hidden">
 			{/* Hero Section */}
@@ -17,12 +47,12 @@ export default function Home() {
 							<span className="text-primary font-bold mr-2">New</span> Client Support Portal is Live
 						</div>
 						<h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight mb-6">
-							<span className="bg-clip-text text-transparent bg-gradient-to-r from-base-content to-base-content/60">Your Trusted Partner in</span>
+							<span className="bg-clip-text text-transparent bg-gradient-to-r from-base-content to-base-content/60">{headerTitle}</span>
 							<br />
-							<span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-500">IT Infrastructure</span>
+							<span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-500">{headerHighlight}</span>
 						</h1>
 						<p className="py-6 text-xl lg:text-2xl text-base-content/70 max-w-3xl mx-auto leading-relaxed">
-							Official partners for Acer, HP, RDP, and Prodot. Providing seamless, scalable support for government and corporate sectors.
+							{headerSubtitle}
 						</p>
 						<div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
 							<Link href="/client/dashboard" className="btn btn-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-none shadow-xl shadow-indigo-500/20 transition-all hover:scale-105 rounded-full px-8 flex items-center">
@@ -94,29 +124,28 @@ export default function Home() {
 				</div>
 
 				{/* Partners/Services Section */}
-				<div id="services" className="mt-32 text-center max-w-4xl mx-auto">
-					<div className="flex items-center justify-center gap-2 mb-4">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-indigo-500">
-							<path strokeLinecap="round" strokeLinejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 0 0-.12-1.03l-2.268-9.64a3.375 3.375 0 0 0-3.285-2.602H7.923a3.375 3.375 0 0 0-3.285 2.602l-2.268 9.64a4.5 4.5 0 0 0-.12 1.03v.228m19.5 0a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3m19.5 0a3 3 0 0 0-3-3H5.25a3 3 0 0 0-3 3m16.5 0h.008v.008h-.008v-.008Zm-3 0h.008v.008h-.008v-.008Z" />
-						</svg>
-						<span className="text-sm font-bold uppercase tracking-wider text-indigo-500">Enterprise Hardware</span>
+				{allPartners.length > 0 && (
+					<div id="services" className="mt-32 text-center max-w-4xl mx-auto">
+						<div className="flex items-center justify-center gap-2 mb-4">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-indigo-500">
+								<path strokeLinecap="round" strokeLinejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 0 0-.12-1.03l-2.268-9.64a3.375 3.375 0 0 0-3.285-2.602H7.923a3.375 3.375 0 0 0-3.285 2.602l-2.268 9.64a4.5 4.5 0 0 0-.12 1.03v.228m19.5 0a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3m19.5 0a3 3 0 0 0-3-3H5.25a3 3 0 0 0-3 3m16.5 0h.008v.008h-.008v-.008Zm-3 0h.008v.008h-.008v-.008Z" />
+							</svg>
+							<span className="text-sm font-bold uppercase tracking-wider text-indigo-500">Enterprise Hardware</span>
+						</div>
+						<h3 className="text-3xl lg:text-4xl font-bold mb-12">Authorized OEM Partners</h3>
+						<div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center opacity-60 hover:opacity-100 transition-opacity duration-500">
+							{allPartners.sort((a: any, b: any) => a.order - b.order).map((partner: any) => (
+								<div key={partner.id} className="p-6 grayscale hover:grayscale-0 transition-all hover:scale-110 cursor-pointer">
+									{partner.logoUrl ? (
+										<img src={partner.logoUrl} alt={partner.name} className="h-16 w-auto object-contain" />
+									) : (
+										<span className="text-2xl font-black tracking-tighter">{partner.name}</span>
+									)}
+								</div>
+							))}
+						</div>
 					</div>
-					<h3 className="text-3xl lg:text-4xl font-bold mb-12">Authorized OEM Partners</h3>
-					<div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center opacity-60 hover:opacity-100 transition-opacity duration-500">
-						<div className="p-6 grayscale hover:grayscale-0 transition-all hover:scale-110 cursor-pointer">
-							<span className="text-4xl font-black tracking-tighter">ACER</span>
-						</div>
-						<div className="p-6 grayscale hover:grayscale-0 transition-all hover:scale-110 cursor-pointer">
-							<span className="text-4xl font-black italic tracking-widest text-[#0096D6]">hp</span>
-						</div>
-						<div className="p-6 grayscale hover:grayscale-0 transition-all hover:scale-110 cursor-pointer">
-							<span className="text-4xl font-black tracking-widest text-red-600">RDP</span>
-						</div>
-						<div className="p-6 grayscale hover:grayscale-0 transition-all hover:scale-110 cursor-pointer">
-							<span className="text-4xl font-black tracking-tight text-blue-800">PRODOT</span>
-						</div>
-					</div>
-				</div>
+				)}
 			</main>
 
 			{/* Modern Footer */}
@@ -145,7 +174,7 @@ export default function Home() {
 							</p>
 						</div>
 						<div className="md:text-right">
-							<p className="text-sm opacity-60 mb-2">© {new Date().getFullYear()} Sibin Tech Solutions.</p>
+							<p className="text-sm opacity-60 mb-2">{footerText}</p>
 							<p className="text-sm opacity-40">All rights reserved.</p>
 						</div>
 					</div>
