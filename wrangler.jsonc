@@ -43,7 +43,11 @@
 			"migrations_dir": "drizzle/migrations",
 			"remote": true
 		}
-	]
+	],
+	"build": {
+		"command": "opennextjs-cloudflare build",
+		"watch_paths": ["src/**/*.ts", "src/**/*.tsx"]
+	}
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
