@@ -10,7 +10,7 @@ export default function AdminLayout({
         <div className="min-h-screen bg-base-200">
             <div className="navbar sticky top-4 z-50 mx-auto w-[95%] max-w-7xl bg-base-100/70 backdrop-blur-lg backdrop-saturate-150 rounded-3xl shadow-lg border border-base-200/50 px-8">
                 <div className="flex-1 gap-2 flex items-center">
-                    <a className="text-xl font-bold mr-4 cursor-pointer hover:opacity-80 transition-opacity">{APP_CONFIG.APP_NAME} - {APP_CONFIG.ADMIN_PANEL_NAME}</a>
+                    <a href={route("HOME")} className="text-xl font-bold mr-4 cursor-pointer hover:opacity-80 transition-opacity">{APP_CONFIG.APP_NAME} - {APP_CONFIG.ADMIN_PANEL_NAME}</a>
                     <div className="hidden lg:flex gap-6 font-medium">
                         <a href={route("ADMIN.DASHBOARD")} className="text-base-content/70 hover:text-indigo-600 hover:scale-105 transition-all cursor-pointer">Tickets</a>
                         <a href={route("ADMIN.ORGANIZATIONS")} className="text-base-content/70 hover:text-indigo-600 hover:scale-105 transition-all cursor-pointer">Organizations</a>

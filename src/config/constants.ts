@@ -5,7 +5,7 @@
 
 export const APP_CONFIG = {
 	// App info
-	APP_NAME: "Sibin Tech Solutions",
+	APP_NAME: "SIBIN Tech Solutions",
 	APP_DESCRIPTION: "Official partners for Acer, HP, RDP, and Prodot. Providing seamless, scalable support for government and corporate sectors.",
 	
 	// Branding
