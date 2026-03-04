@@ -50,7 +50,7 @@ async function migrateDatabase() {
       "name text NOT NULL, " +
       "logo_url text NOT NULL, " +
       "hover_color text DEFAULT 'hover:text-blue-600' NOT NULL, " +
-      "order integer DEFAULT 0 NOT NULL, " +
+      "\"order\" integer DEFAULT 0 NOT NULL, " +
       "is_active integer DEFAULT 1 NOT NULL, " +
       "created_at integer DEFAULT CURRENT_TIMESTAMP NOT NULL" +
       ");",
