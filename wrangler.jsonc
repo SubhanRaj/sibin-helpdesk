@@ -45,8 +45,7 @@
 		}
 	],
 	"build": {
-		"command": "opennextjs-cloudflare build",
-		"watch_paths": ["src/**/*.ts", "src/**/*.tsx"]
+		"command": "opennextjs-cloudflare build"
 	}
 	/**
 	 * Smart Placement
