@@ -1,13 +1,25 @@
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
 
+export const organizations = sqliteTable('organizations', {
+    id: text('id').primaryKey(), // Generate via crypto.randomUUID()
+    name: text('name').notNull(),
+    logoUrl: text('logo_url'),
+    isActive: integer('is_active', { mode: 'boolean' }).default(true).notNull(),
+    createdAt: integer('created_at', { mode: 'timestamp' })
+        .default(sql`CURRENT_TIMESTAMP`)
+        .notNull(),
+});
+
 // Users Table: Handles both Admins and Clients
 export const users = sqliteTable('users', {
     id: text('id').primaryKey(), // Generate via crypto.randomUUID()
     role: text('role', { enum: ['admin', 'client'] }).default('client').notNull(),
     name: text('name').notNull(),
-    organizationName: text('organization_name').notNull(), // e.g., Excise Department of UP
+    organizationName: text('organization_name'), // Keeping for legacy, can be removed later
+    organizationId: text('organization_id').references(() => organizations.id),
     email: text('email').notNull().unique(),
+    isActive: integer('is_active', { mode: 'boolean' }).default(true).notNull(),
     createdAt: integer('created_at', { mode: 'timestamp' })
         .default(sql`CURRENT_TIMESTAMP`)
         .notNull(),

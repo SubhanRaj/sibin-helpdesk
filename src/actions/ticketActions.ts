@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "../db";
-import { tickets, users } from "../db/schema";
+import { tickets, users, organizations } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
@@ -41,6 +41,25 @@ export async function createTicketAction(prevState: any, formData: FormData) {
         }
 
         const userId = await getOrCreateDefaultUser(db);
+
+        const checkUser = await db.select({
+            isActive: users.isActive,
+            orgIsActive: organizations.isActive,
+        })
+            .from(users)
+            .leftJoin(organizations, eq(users.organizationId, organizations.id))
+            .where(eq(users.id, userId))
+            .get();
+
+        if (!checkUser) {
+            return { error: "User not found." };
+        }
+        if (checkUser.isActive === false) {
+            return { error: "Your account is inactive and cannot create tickets." };
+        }
+        if (checkUser.orgIsActive === false) {
+            return { error: "Your organization is currently restricted from creating tickets." };
+        }
 
         await db.insert(tickets).values({
             id: randomUUID(),

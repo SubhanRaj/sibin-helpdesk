@@ -12,13 +12,25 @@ export async function GET() {
       return NextResponse.json({ error: "No D1 binding found" }, { status: 500 });
     }
 
+    try { await db.exec("ALTER TABLE users ADD COLUMN organization_id text REFERENCES organizations(id)"); } catch (e) { }
+    try { await db.exec("ALTER TABLE users ADD COLUMN is_active integer DEFAULT 1 NOT NULL"); } catch (e) { }
+
     const stmts = [
+      "CREATE TABLE IF NOT EXISTS organizations (" +
+      "id text PRIMARY KEY NOT NULL, " +
+      "name text NOT NULL, " +
+      "logo_url text, " +
+      "is_active integer DEFAULT 1 NOT NULL, " +
+      "created_at integer DEFAULT CURRENT_TIMESTAMP NOT NULL" +
+      ");",
       "CREATE TABLE IF NOT EXISTS users (" +
       "id text PRIMARY KEY NOT NULL, " +
       "role text DEFAULT 'client' NOT NULL, " +
       "name text NOT NULL, " +
-      "organization_name text NOT NULL, " +
+      "organization_name text, " +
+      "organization_id text REFERENCES organizations(id), " +
       "email text NOT NULL, " +
+      "is_active integer DEFAULT 1 NOT NULL, " +
       "created_at integer DEFAULT CURRENT_TIMESTAMP NOT NULL" +
       ");",
       "CREATE UNIQUE INDEX IF NOT EXISTS users_email_unique ON users (email);",
