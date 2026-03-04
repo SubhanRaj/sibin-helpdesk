@@ -38,7 +38,7 @@ export default function NewTicketModal() {
                                 name="title"
                                 type="text"
                                 placeholder="Brief summary of the issue"
-                                className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-indigo-500"
+                                className="input input-bordered w-full rounded-xl focus:outline-1 focus:outline-indigo-500"
                                 required
                             />
                         </div>
@@ -49,7 +49,7 @@ export default function NewTicketModal() {
                             </label>
                             <textarea
                                 name="description"
-                                className="textarea textarea-bordered h-24 w-full rounded-xl focus:ring-2 focus:ring-indigo-500"
+                                className="textarea textarea-bordered h-24 w-full rounded-xl focus:outline-1 focus:outline-indigo-500"
                                 placeholder="Detailed description of the problem"
                                 required
                             ></textarea>
@@ -59,7 +59,7 @@ export default function NewTicketModal() {
                             <label className="label">
                                 <span className="label-text font-medium">Priority</span>
                             </label>
-                            <select name="priority" className="select select-bordered w-full rounded-xl focus:ring-2 focus:ring-indigo-500" defaultValue="medium">
+                            <select name="priority" className="select select-bordered w-full rounded-xl focus:outline-1 focus:outline-indigo-500" defaultValue="medium">
                                 <option value="low">Low</option>
                                 <option value="medium">Medium</option>
                                 <option value="high">High</option>

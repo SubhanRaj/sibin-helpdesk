@@ -72,7 +72,7 @@ export default function OrgList({ organizations }: { organizations: any[] }) {
                             <label className="label">
                                 <span className="label-text">Organization Name</span>
                             </label>
-                            <input type="text" name="name" className="input input-bordered rounded-xl focus:ring-2 focus:ring-indigo-500" required placeholder="e.g. Acme Corp" />
+                            <input type="text" name="name" className="input input-bordered rounded-xl focus:outline-1 focus:outline-indigo-500" required placeholder="e.g. Acme Corp" />
                         </div>
                         <div className="form-control mb-6">
                             <label className="label cursor-pointer justify-start gap-4">

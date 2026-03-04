@@ -29,7 +29,7 @@ export default function ClientList({ clients, organizations }: { clients: any[],
                 <input
                     type="text"
                     placeholder="Search by Org or Name..."
-                    className="input input-bordered w-full max-w-xs rounded-xl focus:ring-2 focus:ring-indigo-500"
+                    className="input input-bordered w-full max-w-xs rounded-xl focus:outline-1 focus:outline-indigo-500"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -92,19 +92,19 @@ export default function ClientList({ clients, organizations }: { clients: any[],
                             <label className="label">
                                 <span className="label-text">Full Name</span>
                             </label>
-                            <input type="text" name="name" className="input input-bordered rounded-xl focus:ring-2 focus:ring-indigo-500" required placeholder="John Doe" />
+                            <input type="text" name="name" className="input input-bordered rounded-xl focus:outline-1 focus:outline-indigo-500" required placeholder="John Doe" />
                         </div>
                         <div className="form-control mb-4">
                             <label className="label">
                                 <span className="label-text">Email Address</span>
                             </label>
-                            <input type="email" name="email" className="input input-bordered rounded-xl focus:ring-2 focus:ring-indigo-500" required placeholder="john@example.com" />
+                            <input type="email" name="email" className="input input-bordered rounded-xl focus:outline-1 focus:outline-indigo-500" required placeholder="john@example.com" />
                         </div>
                         <div className="form-control mb-4">
                             <label className="label">
                                 <span className="label-text">Organization</span>
                             </label>
-                            <select name="organizationId" className="select select-bordered w-full rounded-xl focus:ring-2 focus:ring-indigo-500" required defaultValue="">
+                            <select name="organizationId" className="select select-bordered w-full rounded-xl focus:outline-1 focus:outline-indigo-500" required defaultValue="">
                                 <option value="" disabled>Select an Organization</option>
                                 {organizations.map(org => (
                                     <option key={org.id} value={org.id}>{org.name}</option>
