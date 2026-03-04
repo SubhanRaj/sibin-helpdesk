@@ -9,10 +9,10 @@ export default function FaviconUpdater() {
 			.then((res) => res.json())
 			.then((data) => {
 				// Update or create the favicon link
-				let faviconLink = document.querySelector('link[rel="icon"]');
+				let faviconLink = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
 				
 				if (!faviconLink) {
-					faviconLink = document.createElement('link');
+					faviconLink = document.createElement('link') as HTMLLinkElement;
 					faviconLink.rel = 'icon';
 					document.head.appendChild(faviconLink);
 				}

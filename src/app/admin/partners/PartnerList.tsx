@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { useActionState } from "react";
 import { createPartnerAction, updatePartnerAction, deletePartnerAction } from "../../../actions/adminActions";
 
@@ -8,6 +8,7 @@ export default function PartnerList({ initialPartners }: any) {
     const [partners, setPartners] = useState(initialPartners || []);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
+    const [isPending, startTransition] = useTransition();
 
     // Create partner
     const [createState, createAction] = useActionState(createPartnerAction, { success: false });
@@ -21,25 +22,30 @@ export default function PartnerList({ initialPartners }: any) {
         { success: false }
     );
 
-    const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        await createAction(formData);
+    // Close modal when creation is successful
+    useEffect(() => {
         if (createState.success) {
-            e.currentTarget.reset();
             setShowModal(false);
         }
-    };
+    }, [createState.success]);
 
-    const handleUpdateSubmit = async (e: React.FormEvent<HTMLFormElement>, id: string) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        formData.append("partnerId", id);
-        await updateAction(formData);
+    // Close modal when update is successful
+    useEffect(() => {
         if (updateState.success) {
             setEditingId(null);
         }
+
+    const handleDelete = (id: string) => {
+        if (confirm("Are you sure you want to delete this partner?")) {
+            startTransition(async () => {
+                await deletePartnerAction(id);
+                setPartners(partners.filter((p: any) => p.id !== id));
+            });
+        }
     };
+    }, [updateState.success]);
+
+
 
     const handleDelete = async (id: string) => {
         if (confirm("Are you sure you want to delete this partner?")) {
@@ -60,7 +66,7 @@ export default function PartnerList({ initialPartners }: any) {
                 <div className="modal modal-open">
                     <div className="modal-box max-w-md">
                         <h3 className="font-bold text-lg mb-4">Add New Partner</h3>
-                        <form onSubmit={handleCreateSubmit} className="space-y-4">
+                        <form action={createAction} className="space-y-4">
                             <div>
                                 <label className="label">
                                     <span className="label-text font-medium">Partner Name</span>
@@ -117,7 +123,8 @@ export default function PartnerList({ initialPartners }: any) {
                 <div className="modal modal-open">
                     <div className="modal-box max-w-md">
                         <h3 className="font-bold text-lg mb-4">Edit Partner</h3>
-                        <form onSubmit={(e) => handleUpdateSubmit(e, editingId)} className="space-y-4">
+                        <form action={updateAction} className="space-y-4">
+                            <input type="hidden" name="partnerId" value={editingId} />
                             {partners.map((p: any) =>
                                 p.id === editingId ? (
                                     <div key={p.id}>
