@@ -58,3 +58,39 @@ export async function createTicketAction(prevState: any, formData: FormData) {
         return { error: err.message || "Failed to create ticket" };
     }
 }
+
+export async function updateTicketStatusAction(ticketId: string, status: "open" | "in-progress" | "resolved") {
+    try {
+        const { env } = await getCloudflareContext();
+        const db = getDb(env as any);
+
+        await db.update(tickets)
+            .set({ status, updatedAt: new Date() })
+            .where(eq(tickets.id, ticketId));
+
+        revalidatePath("/admin/dashboard");
+        revalidatePath("/client/dashboard");
+        return { success: true };
+    } catch (err: any) {
+        console.error("Error updating status:", err);
+        return { error: err.message || "Failed to update status" };
+    }
+}
+
+export async function updateTicketLinkAction(ticketId: string, helpwireLink: string) {
+    try {
+        const { env } = await getCloudflareContext();
+        const db = getDb(env as any);
+
+        await db.update(tickets)
+            .set({ helpwireLink, updatedAt: new Date() })
+            .where(eq(tickets.id, ticketId));
+
+        revalidatePath("/admin/dashboard");
+        revalidatePath("/client/dashboard");
+        return { success: true };
+    } catch (err: any) {
+        console.error("Error updating link:", err);
+        return { error: err.message || "Failed to update link" };
+    }
+}
