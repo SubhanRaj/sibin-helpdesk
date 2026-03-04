@@ -6,16 +6,12 @@ import ClientList from "./ClientList";
 
 export const dynamic = "force-dynamic";
 
-export default async function ClientsPage() {
-    let clientsData: any[] = [];
-    let orgsData: any[] = [];
-
+async function fetchClientsData() {
     try {
         const { env } = await getCloudflareContext();
-        // @ts-ignore
         const db = getDb(env as any);
 
-        clientsData = await db.select({
+        const clientsData = await db.select({
             id: users.id,
             name: users.name,
             email: users.email,
@@ -29,10 +25,16 @@ export default async function ClientsPage() {
             .where(eq(users.role, "client"))
             .orderBy(desc(users.createdAt));
 
-        orgsData = await db.select().from(organizations).where(eq(organizations.isActive, true)).orderBy(desc(organizations.name));
+        const orgsData = await db.select().from(organizations).orderBy(desc(organizations.createdAt));
+        return { clientsData, orgsData };
     } catch (err) {
-        console.error("DB Error:", err);
+        console.error("Error fetching clients:", err);
+        return { clientsData: [], orgsData: [] };
     }
+}
+
+export default async function ClientsPage() {
+    const { clientsData, orgsData } = await fetchClientsData();
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">

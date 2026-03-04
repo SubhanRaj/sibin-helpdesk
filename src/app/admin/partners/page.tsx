@@ -4,11 +4,19 @@ import { partners } from "../../../db/schema";
 import { desc } from "drizzle-orm";
 import PartnerList from "./PartnerList";
 
-export default async function PartnerManagementPage() {
-    const { env } = await getCloudflareContext();
-    const db = getDb(env as any);
+async function fetchPartners() {
+    try {
+        const { env } = await getCloudflareContext();
+        const db = getDb(env as any);
+        return await db.select().from(partners).orderBy(desc(partners.order)).all();
+    } catch (err) {
+        console.log("Error fetching partners:", err);
+        return [];
+    }
+}
 
-    const allPartners = await db.select().from(partners).orderBy(desc(partners.order)).all();
+export default async function PartnerManagementPage() {
+    const allPartners = await fetchPartners();
 
     return (
         <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

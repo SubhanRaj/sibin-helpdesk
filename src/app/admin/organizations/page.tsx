@@ -6,17 +6,19 @@ import OrgList from "./OrgList";
 
 export const dynamic = "force-dynamic";
 
-export default async function OrganizationsPage() {
-    let orgs: any[] = [];
+async function fetchOrganizations() {
     try {
         const { env } = await getCloudflareContext();
-        // @ts-ignore
         const db = getDb(env as any);
-
-        orgs = await db.select().from(organizations).orderBy(desc(organizations.createdAt));
+        return await db.select().from(organizations).orderBy(desc(organizations.createdAt));
     } catch (err) {
-        console.error(err);
+        console.error("Error fetching organizations:", err);
+        return [];
     }
+}
+
+export default async function OrganizationsPage() {
+    const orgs = await fetchOrganizations();
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">

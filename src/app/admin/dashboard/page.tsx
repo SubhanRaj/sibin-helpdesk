@@ -5,19 +5,29 @@ import { desc, eq } from "drizzle-orm";
 import UpdateStatusSelect from "./UpdateStatusSelect";
 import UpdateLinkInput from "./UpdateLinkInput";
 
-export default async function AdminDashboardPage() {
-    const { env } = await getCloudflareContext();
-    const db = getDb(env as any);
+async function fetchTickets() {
+    try {
+        const { env } = await getCloudflareContext();
+        const db = getDb(env as any);
 
-    // Fetch all tickets with user information
-    const allTickets = await db.select({
-        ticket: tickets,
-        user: users,
-    })
-        .from(tickets)
-        .innerJoin(users, eq(tickets.userId, users.id))
-        .orderBy(desc(tickets.createdAt))
-        .all();
+        const allTickets = await db.select({
+            ticket: tickets,
+            user: users,
+        })
+            .from(tickets)
+            .innerJoin(users, eq(tickets.userId, users.id))
+            .orderBy(desc(tickets.createdAt))
+            .all();
+
+        return allTickets;
+    } catch (err) {
+        console.log("Error fetching tickets:", err);
+        return [];
+    }
+}
+
+export default async function AdminDashboardPage() {
+    const allTickets = await fetchTickets();
 
     const openCount = allTickets.filter((t) => t.ticket.status === "open").length;
     const inProgressCount = allTickets.filter((t) => t.ticket.status === "in-progress").length;

@@ -4,26 +4,29 @@ import { getDb } from "../db";
 import { partners, homepageSettings } from "../db/schema";
 import { eq } from "drizzle-orm";
 
-export default async function Home() {
-	const { env } = await getCloudflareContext();
-	const db = getDb(env as any);
-
-	// Fetch partners and settings (gracefully handle missing tables)
-	let allPartners = [];
-	let settings = null;
-
+async function fetchData() {
 	try {
-		allPartners = await db.select().from(partners).where(eq(partners.isActive, true)).all();
-	} catch (err) {
-		console.log("Partners table not yet created or empty");
-	}
+		const { env } = await getCloudflareContext();
+		const db = getDb(env as any);
 
-	try {
+		const allPartners = await db.select().from(partners).where(eq(partners.isActive, true)).all();
 		const settingsArray = await db.select().from(homepageSettings).all();
-		settings = settingsArray[0];
+		
+		return {
+			allPartners,
+			settings: settingsArray[0],
+		};
 	} catch (err) {
-		console.log("Homepage settings table not yet created");
+		console.log("Database fetch error:", err);
+		return {
+			allPartners: [],
+			settings: null,
+		};
 	}
+}
+
+export default async function Home() {
+	const { allPartners, settings } = await fetchData();
 
 	// Default values if no settings exist
 	const headerTitle = settings?.headerTitle || "Your Trusted Partner in";
