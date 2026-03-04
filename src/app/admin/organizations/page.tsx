@@ -1,8 +1,14 @@
+import { Metadata } from "next";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
 import { organizations } from "@/db/schema";
 import { desc } from "drizzle-orm";
 import OrgList from "./OrgList";
+
+export const metadata: Metadata = {
+	title: "Organizations",
+	description: "Manage organizations",
+};
 
 export const dynamic = "force-dynamic";
 

@@ -1,8 +1,14 @@
+import { Metadata } from "next";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
 import { users, organizations } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 import ClientList from "./ClientList";
+
+export const metadata: Metadata = {
+	title: "Clients",
+	description: "Manage client accounts",
+};
 
 export const dynamic = "force-dynamic";
 

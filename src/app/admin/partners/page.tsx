@@ -1,8 +1,14 @@
+import { Metadata } from "next";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "../../../db";
 import { partners } from "../../../db/schema";
 import { desc } from "drizzle-orm";
 import PartnerList from "./PartnerList";
+
+export const metadata: Metadata = {
+	title: "Partners",
+	description: "Manage OEM partners displayed on the homepage",
+};
 
 async function fetchPartners() {
     try {

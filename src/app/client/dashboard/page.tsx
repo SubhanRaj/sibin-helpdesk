@@ -1,8 +1,14 @@
+import { Metadata } from "next";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "../../../db";
 import { tickets, users } from "../../../db/schema";
 import { eq, desc } from "drizzle-orm";
 import NewTicketModal from "./NewTicketModal";
+
+export const metadata: Metadata = {
+	title: "Client Dashboard",
+	description: "View and manage your support tickets",
+};
 
 // Helper to get or create the default user for the MVP
 async function getDefaultUserId(db: any) {

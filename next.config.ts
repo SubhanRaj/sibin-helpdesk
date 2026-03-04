@@ -2,6 +2,8 @@ import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
 initOpenNextCloudflareForDev();
 
-export default {
+const nextConfig = {
 	/* config options here */
 };
+
+export default nextConfig;

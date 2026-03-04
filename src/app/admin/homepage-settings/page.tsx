@@ -1,7 +1,13 @@
+import { Metadata } from "next";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "../../../db";
 import { homepageSettings } from "../../../db/schema";
 import HomepageSettingsForm from "./HomepageSettingsForm";
+
+export const metadata: Metadata = {
+	title: "Homepage Settings",
+	description: "Customize your homepage header, footer, branding, and more",
+};
 
 async function fetchSettings() {
     try {

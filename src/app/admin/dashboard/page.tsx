@@ -1,9 +1,15 @@
+import { Metadata } from "next";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "../../../db";
 import { tickets, users } from "../../../db/schema";
 import { desc, eq } from "drizzle-orm";
 import UpdateStatusSelect from "./UpdateStatusSelect";
 import UpdateLinkInput from "./UpdateLinkInput";
+
+export const metadata: Metadata = {
+	title: "Dashboard - Tickets",
+	description: "View and manage all support tickets",
+};
 
 async function fetchTickets() {
     try {
