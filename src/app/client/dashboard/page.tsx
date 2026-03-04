@@ -31,9 +31,9 @@ export default async function ClientDashboardPage() {
     const resolvedCount = userTickets.filter((t) => t.status === "resolved").length;
 
     return (
-        <div className="space-y-8 max-w-7xl mx-auto">
+        <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {/* Stats Row */}
-            <div className="stats shadow w-full bg-base-100">
+            <div className="stats shadow-xl w-full bg-base-100 border border-base-200">
                 <div className="stat">
                     <div className="stat-title border-b border-base-200 pb-2 mb-2 font-semibold">Open Tickets</div>
                     <div className="stat-value text-3xl">{openCount}</div>
@@ -57,10 +57,10 @@ export default async function ClientDashboardPage() {
             </div>
 
             {/* Tickets Table */}
-            <div className="card bg-base-100 shadow-sm border border-base-200">
+            <div className="card bg-base-100 shadow-xl border border-base-200">
                 <div className="card-body p-0">
-                    <div className="overflow-x-auto">
-                        <table className="table table-zebra w-full">
+                    <div className="overflow-x-auto overflow-hidden rounded-2xl">
+                        <table className="table table-zebra w-full [&_th]:px-6 [&_th]:py-4 [&_td]:px-6 [&_td]:py-4">
                             {/* head */}
                             <thead className="bg-base-200/50 text-base-content">
                                 <tr>
@@ -87,14 +87,14 @@ export default async function ClientDashboardPage() {
                                             <td className="font-medium">{ticket.title}</td>
                                             <td>
                                                 <span className={`badge badge-sm ${ticket.priority === 'high' ? 'badge-error' :
-                                                        ticket.priority === 'medium' ? 'badge-warning' : 'badge-info'
+                                                    ticket.priority === 'medium' ? 'badge-warning' : 'badge-info'
                                                     }`}>
                                                     {ticket.priority.charAt(0).toUpperCase() + ticket.priority.slice(1)}
                                                 </span>
                                             </td>
                                             <td>
                                                 <span className={`badge badge-sm ${ticket.status === 'open' ? 'badge-error' :
-                                                        ticket.status === 'in-progress' ? 'badge-primary' : 'badge-success'
+                                                    ticket.status === 'in-progress' ? 'badge-primary' : 'badge-success'
                                                     }`}>
                                                     {ticket.status === 'in-progress' ? 'In-Progress' :
                                                         ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}
@@ -102,7 +102,7 @@ export default async function ClientDashboardPage() {
                                             </td>
                                             <td>
                                                 {ticket.helpwireLink ? (
-                                                    <a href={ticket.helpwireLink} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-primary">
+                                                    <a href={ticket.helpwireLink} target="_blank" rel="noopener noreferrer" className="btn btn-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-none shadow-md">
                                                         Join Session
                                                     </a>
                                                 ) : (

@@ -24,7 +24,7 @@ export default async function AdminDashboardPage() {
     const resolvedCount = allTickets.filter((t) => t.ticket.status === "resolved").length;
 
     return (
-        <div className="space-y-8 max-w-[95%] mx-auto">
+        <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {/* Header */}
             <div>
                 <h1 className="text-3xl font-bold">Admin Support Dashboard</h1>
@@ -32,7 +32,7 @@ export default async function AdminDashboardPage() {
             </div>
 
             {/* Stats Row */}
-            <div className="stats shadow w-full bg-base-100">
+            <div className="stats shadow-xl w-full bg-base-100 border border-base-200">
                 <div className="stat">
                     <div className="stat-title border-b border-base-200 pb-2 mb-2 font-semibold">Total Open</div>
                     <div className="stat-value text-3xl text-error">{openCount}</div>
@@ -50,10 +50,10 @@ export default async function AdminDashboardPage() {
             </div>
 
             {/* Tickets Table */}
-            <div className="card bg-base-100 shadow-sm border border-base-200">
+            <div className="card bg-base-100 shadow-xl border border-base-200">
                 <div className="card-body p-0">
-                    <div className="overflow-x-auto">
-                        <table className="table table-zebra table-sm md:table-md w-full">
+                    <div className="overflow-x-auto overflow-hidden rounded-2xl">
+                        <table className="table table-zebra table-sm md:table-md w-full [&_th]:px-6 [&_th]:py-4 [&_td]:px-6 [&_td]:py-4">
                             {/* head */}
                             <thead className="bg-base-200/50 text-base-content">
                                 <tr>
@@ -86,7 +86,7 @@ export default async function AdminDashboardPage() {
                                             </td>
                                             <td>
                                                 <span className={`badge badge-sm ${ticket.priority === 'high' ? 'badge-error' :
-                                                        ticket.priority === 'medium' ? 'badge-warning' : 'badge-info'
+                                                    ticket.priority === 'medium' ? 'badge-warning' : 'badge-info'
                                                     }`}>
                                                     {ticket.priority.charAt(0).toUpperCase() + ticket.priority.slice(1)}
                                                 </span>

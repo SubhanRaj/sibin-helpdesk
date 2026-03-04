@@ -19,14 +19,14 @@ export default function Home() {
 			<main className="flex-grow container mx-auto px-4 py-16">
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
 					{/* Client Card */}
-					<div className="card bg-base-100 shadow-xl border border-base-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+					<div className="card bg-base-100 shadow-2xl border border-base-200 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-1">
 						<div className="card-body items-center text-center">
 							<h2 className="card-title text-2xl mb-2">Client Support Portal</h2>
 							<p className="text-base-content/70 mb-6">
 								Report IT issues, track complaint status, and join remote sessions.
 							</p>
 							<div className="card-actions mt-auto w-full justify-center">
-								<Link href="/client/dashboard" className="btn btn-primary btn-wide transition-transform hover:scale-105">
+								<Link href="/client/dashboard" className="btn bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-none btn-wide transition-transform hover:scale-105 shadow-md">
 									Client Login
 								</Link>
 							</div>

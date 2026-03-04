@@ -17,14 +17,14 @@ export default function OrgList({ organizations }: { organizations: any[] }) {
         <div>
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold text-base-content/80">All Organizations</h2>
-                <button className="btn btn-primary" onClick={() => modalRef.current?.showModal()}>
+                <button className="btn bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-none shadow-md shadow-indigo-500/20" onClick={() => modalRef.current?.showModal()}>
                     ➕ Add Organization
                 </button>
             </div>
 
             {/* Organizations Table */}
-            <div className="overflow-x-auto bg-base-100 border border-base-200 rounded-box shadow">
-                <table className="table">
+            <div className="overflow-x-auto overflow-hidden rounded-2xl bg-base-100 border border-base-200 shadow-xl">
+                <table className="table table-zebra w-full [&_th]:px-6 [&_th]:py-4 [&_td]:px-6 [&_td]:py-4">
                     <thead>
                         <tr className="bg-base-200/50">
                             <th>Name</th>
@@ -72,7 +72,7 @@ export default function OrgList({ organizations }: { organizations: any[] }) {
                             <label className="label">
                                 <span className="label-text">Organization Name</span>
                             </label>
-                            <input type="text" name="name" className="input input-bordered" required placeholder="e.g. Acme Corp" />
+                            <input type="text" name="name" className="input input-bordered rounded-xl focus:ring-2 focus:ring-indigo-500" required placeholder="e.g. Acme Corp" />
                         </div>
                         <div className="form-control mb-6">
                             <label className="label cursor-pointer justify-start gap-4">
@@ -87,7 +87,7 @@ export default function OrgList({ organizations }: { organizations: any[] }) {
                         )}
                         <div className="modal-action">
                             <button type="button" className="btn btn-ghost" onClick={() => modalRef.current?.close()}>Cancel</button>
-                            <button type="submit" className="btn btn-primary" disabled={isPending}>
+                            <button type="submit" className="btn bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-none shadow" disabled={isPending}>
                                 {isPending ? <span className="loading loading-spinner loading-sm"></span> : "Save"}
                             </button>
                         </div>

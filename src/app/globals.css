@@ -4,6 +4,9 @@
 :root {
 	--background: #ffffff;
 	--foreground: #171717;
+	--rounded-box: 1.5rem;
+	--rounded-btn: 0.75rem;
+	--rounded-badge: 1.9rem;
 }
 
 @theme inline {

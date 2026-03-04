@@ -29,18 +29,18 @@ export default function ClientList({ clients, organizations }: { clients: any[],
                 <input
                     type="text"
                     placeholder="Search by Org or Name..."
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-bordered w-full max-w-xs rounded-xl focus:ring-2 focus:ring-indigo-500"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button className="btn btn-primary ml-4" onClick={() => modalRef.current?.showModal()}>
+                <button className="btn bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-none shadow-md shadow-indigo-500/20 ml-4" onClick={() => modalRef.current?.showModal()}>
                     ➕ Add Client
                 </button>
             </div>
 
             {/* Clients Table */}
-            <div className="overflow-x-auto bg-base-100 border border-base-200 rounded-box shadow">
-                <table className="table">
+            <div className="overflow-x-auto overflow-hidden rounded-2xl bg-base-100 border border-base-200 shadow-xl">
+                <table className="table table-zebra w-full [&_th]:px-6 [&_th]:py-4 [&_td]:px-6 [&_td]:py-4">
                     <thead>
                         <tr className="bg-base-200/50">
                             <th>Name</th>
@@ -92,19 +92,19 @@ export default function ClientList({ clients, organizations }: { clients: any[],
                             <label className="label">
                                 <span className="label-text">Full Name</span>
                             </label>
-                            <input type="text" name="name" className="input input-bordered" required placeholder="John Doe" />
+                            <input type="text" name="name" className="input input-bordered rounded-xl focus:ring-2 focus:ring-indigo-500" required placeholder="John Doe" />
                         </div>
                         <div className="form-control mb-4">
                             <label className="label">
                                 <span className="label-text">Email Address</span>
                             </label>
-                            <input type="email" name="email" className="input input-bordered" required placeholder="john@example.com" />
+                            <input type="email" name="email" className="input input-bordered rounded-xl focus:ring-2 focus:ring-indigo-500" required placeholder="john@example.com" />
                         </div>
                         <div className="form-control mb-4">
                             <label className="label">
                                 <span className="label-text">Organization</span>
                             </label>
-                            <select name="organizationId" className="select select-bordered w-full" required defaultValue="">
+                            <select name="organizationId" className="select select-bordered w-full rounded-xl focus:ring-2 focus:ring-indigo-500" required defaultValue="">
                                 <option value="" disabled>Select an Organization</option>
                                 {organizations.map(org => (
                                     <option key={org.id} value={org.id}>{org.name}</option>
@@ -129,7 +129,7 @@ export default function ClientList({ clients, organizations }: { clients: any[],
                         )}
                         <div className="modal-action">
                             <button type="button" className="btn btn-ghost" onClick={() => modalRef.current?.close()}>Cancel</button>
-                            <button type="submit" className="btn btn-primary" disabled={isPending || organizations.length === 0}>
+                            <button type="submit" className="btn bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-none shadow" disabled={isPending || organizations.length === 0}>
                                 {isPending ? <span className="loading loading-spinner loading-sm"></span> : "Add Client"}
                             </button>
                         </div>

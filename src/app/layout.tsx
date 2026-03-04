@@ -27,7 +27,7 @@ export default function RootLayout({
 			<head>
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
 			</head>
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+			<body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-base-100 via-base-200 to-base-100 min-h-screen`}>{children}</body>
 		</html>
 	);
 }

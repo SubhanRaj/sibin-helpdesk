@@ -16,7 +16,7 @@ export default function NewTicketModal() {
     return (
         <>
             <button
-                className="btn btn-primary"
+                className="btn bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-none shadow-md shadow-indigo-500/20"
                 onClick={() => modalRef.current?.showModal()}
             >
                 Raise New Ticket
@@ -38,7 +38,7 @@ export default function NewTicketModal() {
                                 name="title"
                                 type="text"
                                 placeholder="Brief summary of the issue"
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-indigo-500"
                                 required
                             />
                         </div>
@@ -49,7 +49,7 @@ export default function NewTicketModal() {
                             </label>
                             <textarea
                                 name="description"
-                                className="textarea textarea-bordered h-24 w-full"
+                                className="textarea textarea-bordered h-24 w-full rounded-xl focus:ring-2 focus:ring-indigo-500"
                                 placeholder="Detailed description of the problem"
                                 required
                             ></textarea>
@@ -59,7 +59,7 @@ export default function NewTicketModal() {
                             <label className="label">
                                 <span className="label-text font-medium">Priority</span>
                             </label>
-                            <select name="priority" className="select select-bordered w-full" defaultValue="medium">
+                            <select name="priority" className="select select-bordered w-full rounded-xl focus:ring-2 focus:ring-indigo-500" defaultValue="medium">
                                 <option value="low">Low</option>
                                 <option value="medium">Medium</option>
                                 <option value="high">High</option>
@@ -79,7 +79,7 @@ export default function NewTicketModal() {
                             >
                                 Cancel
                             </button>
-                            <button type="submit" className="btn btn-primary" disabled={isPending}>
+                            <button type="submit" className="btn bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-none shadow" disabled={isPending}>
                                 {isPending && <span className="loading loading-spinner"></span>}
                                 Submit Ticket
                             </button>
