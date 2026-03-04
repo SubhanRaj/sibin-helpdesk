@@ -1,0 +1,83 @@
+"use client";
+
+import { useRef } from "react";
+
+export default function NewTicketModal() {
+    const modalRef = useRef<HTMLDialogElement>(null);
+
+    return (
+        <>
+            <button
+                className="btn btn-primary"
+                onClick={() => modalRef.current?.showModal()}
+            >
+                Raise New Ticket
+            </button>
+
+            <dialog ref={modalRef} className="modal">
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg">Create New Ticket</h3>
+                    <p className="py-4 text-sm text-base-content/70">
+                        Please provide the details of your issue below, and our support team will assist you shortly.
+                    </p>
+
+                    <form className="space-y-4" onSubmit={(e) => {
+                        e.preventDefault();
+                        // Placeholder for form submission
+                        modalRef.current?.close();
+                    }}>
+                        <div className="form-control w-full">
+                            <label className="label">
+                                <span className="label-text font-medium">Title</span>
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="Brief summary of the issue"
+                                className="input input-bordered w-full"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-control w-full">
+                            <label className="label">
+                                <span className="label-text font-medium">Description</span>
+                            </label>
+                            <textarea
+                                className="textarea textarea-bordered h-24 w-full"
+                                placeholder="Detailed description of the problem"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <div className="form-control w-full">
+                            <label className="label">
+                                <span className="label-text font-medium">Priority</span>
+                            </label>
+                            <select className="select select-bordered w-full" defaultValue="medium">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+
+                        <div className="modal-action">
+                            <button
+                                type="button"
+                                className="btn btn-ghost"
+                                onClick={() => modalRef.current?.close()}
+                            >
+                                Cancel
+                            </button>
+                            <button type="submit" className="btn btn-primary">
+                                Submit Ticket
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
+        </>
+    );
+}
