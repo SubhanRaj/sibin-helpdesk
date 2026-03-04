@@ -74,14 +74,24 @@ async function migrateDatabase() {
       await db.exec(sanitize);
     }
 
-    // Seed initial sibin_admin user (INSERT OR IGNORE — safe to re-run)
+    // Seed initial sibin_admin user
+    // UPDATE first in case the email already exists with wrong role (e.g. 'client' from old system)
+    try {
+      await db.exec(
+        `UPDATE users SET role = 'sibin_admin', name = 'Shubhan Raj', is_active = 1 WHERE email = 'shubhanraj2002@gmail.com'`
+      );
+    } catch (e) { }
+    // INSERT as fallback for fresh installs
     try {
       await db.exec(
         `INSERT OR IGNORE INTO users (id, role, name, email, is_active, created_at) VALUES ('sibin-admin-001', 'sibin_admin', 'Shubhan Raj', 'shubhanraj2002@gmail.com', 1, CURRENT_TIMESTAMP)`
       );
     } catch (e) { }
 
-    return { success: true, message: "Migration applied successfully" };
+    // Return current state of sibin_admin for debugging
+    const adminRow = await db.prepare(`SELECT id, role, name, email, clerk_user_id FROM users WHERE email = 'shubhanraj2002@gmail.com'`).first();
+
+    return { success: true, message: "Migration applied successfully", adminUser: adminRow ?? "not found" };
   } catch (error: any) {
     throw new Error(error.message);
   }
