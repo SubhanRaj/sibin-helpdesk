@@ -11,13 +11,13 @@ export const organizations = sqliteTable('organizations', {
         .notNull(),
 });
 
-// Users Table: Handles both Admins and Clients
+// Users Table: Handles Sibin staff and client org users
 export const users = sqliteTable('users', {
     id: text('id').primaryKey(), // Generate via crypto.randomUUID()
-    role: text('role', { enum: ['admin', 'client'] }).default('client').notNull(),
+    clerkUserId: text('clerk_user_id').unique(), // Linked after first Clerk sign-in
+    role: text('role', { enum: ['sibin_admin', 'sibin_staff', 'org_admin', 'org_user'] }).default('org_user').notNull(),
     name: text('name').notNull(),
-    organizationName: text('organization_name'), // Keeping for legacy, can be removed later
-    organizationId: text('organization_id').references(() => organizations.id),
+    organizationId: text('organization_id').references(() => organizations.id), // null for sibin_admin/sibin_staff
     email: text('email').notNull().unique(),
     isActive: integer('is_active', { mode: 'boolean' }).default(true).notNull(),
     createdAt: integer('created_at', { mode: 'timestamp' })

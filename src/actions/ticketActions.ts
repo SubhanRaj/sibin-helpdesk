@@ -6,25 +6,7 @@ import { getDb } from "../db";
 import { tickets, users, organizations } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
-
-// Dummy Auth: We'll ensure a default user exists and get their ID
-async function getOrCreateDefaultUser(db: ReturnType<typeof getDb>) {
-    const defaultEmail = "client@acme.corp";
-    let user = await db.select().from(users).where(eq(users.email, defaultEmail)).get();
-
-    if (!user) {
-        const newUserId = randomUUID();
-        await db.insert(users).values({
-            id: newUserId,
-            name: "Acme Client",
-            organizationName: "ACME Corporation",
-            email: defaultEmail,
-            role: "client"
-        });
-        user = await db.select().from(users).where(eq(users.email, defaultEmail)).get();
-    }
-    return user!.id;
-}
+import { getCurrentAppUser } from "@/lib/auth";
 
 export async function createTicketAction(prevState: any, formData: FormData) {
     try {
@@ -40,7 +22,10 @@ export async function createTicketAction(prevState: any, formData: FormData) {
             return { error: "All fields are required" };
         }
 
-        const userId = await getOrCreateDefaultUser(db);
+        const appUser = await getCurrentAppUser();
+        if (!appUser) {
+            return { error: "You must be signed in to create a ticket." };
+        }
 
         const checkUser = await db.select({
             isActive: users.isActive,
@@ -48,7 +33,7 @@ export async function createTicketAction(prevState: any, formData: FormData) {
         })
             .from(users)
             .leftJoin(organizations, eq(users.organizationId, organizations.id))
-            .where(eq(users.id, userId))
+            .where(eq(users.id, appUser.id))
             .get();
 
         if (!checkUser) {
@@ -63,7 +48,7 @@ export async function createTicketAction(prevState: any, formData: FormData) {
 
         await db.insert(tickets).values({
             id: randomUUID(),
-            userId,
+            userId: appUser.id,
             title,
             description,
             priority,

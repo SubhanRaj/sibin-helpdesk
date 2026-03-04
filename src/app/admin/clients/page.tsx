@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
 import { users, organizations } from "@/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, inArray } from "drizzle-orm";
 import ClientList from "./ClientList";
 
 export const metadata: Metadata = {
@@ -28,7 +28,7 @@ async function fetchClientsData() {
         })
             .from(users)
             .leftJoin(organizations, eq(users.organizationId, organizations.id))
-            .where(eq(users.role, "client"))
+            .where(inArray(users.role, ['org_admin', 'org_user']))
             .orderBy(desc(users.createdAt));
 
         const orgsData = await db.select().from(organizations).orderBy(desc(organizations.createdAt));

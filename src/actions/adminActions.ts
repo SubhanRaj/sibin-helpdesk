@@ -70,7 +70,7 @@ export async function createClientUserAction(prevState: any, formData: FormData)
 
         await db.insert(users).values({
             id: randomUUID(),
-            role: "client",
+            role: "org_user",
             name,
             email,
             organizationId,

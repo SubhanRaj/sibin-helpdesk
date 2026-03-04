@@ -13,6 +13,8 @@ async function migrateDatabase() {
 
     try { await db.exec("ALTER TABLE users ADD COLUMN organization_id text REFERENCES organizations(id)"); } catch (e) { }
     try { await db.exec("ALTER TABLE users ADD COLUMN is_active integer DEFAULT 1 NOT NULL"); } catch (e) { }
+    try { await db.exec("ALTER TABLE users ADD COLUMN clerk_user_id text"); } catch (e) { }
+    try { await db.exec("CREATE UNIQUE INDEX IF NOT EXISTS users_clerk_user_id_unique ON users (clerk_user_id)"); } catch (e) { }
 
     const stmts = [
       "CREATE TABLE IF NOT EXISTS organizations (" +
@@ -24,9 +26,9 @@ async function migrateDatabase() {
       ");",
       "CREATE TABLE IF NOT EXISTS users (" +
       "id text PRIMARY KEY NOT NULL, " +
-      "role text DEFAULT 'client' NOT NULL, " +
+      "clerk_user_id text UNIQUE, " +
+      "role text DEFAULT 'org_user' NOT NULL, " +
       "name text NOT NULL, " +
-      "organization_name text, " +
       "organization_id text REFERENCES organizations(id), " +
       "email text NOT NULL, " +
       "is_active integer DEFAULT 1 NOT NULL, " +
@@ -71,6 +73,13 @@ async function migrateDatabase() {
       const sanitize = statement.replace(/\n/g, " ").replace(/\s+/g, " ");
       await db.exec(sanitize);
     }
+
+    // Seed initial sibin_admin user (INSERT OR IGNORE — safe to re-run)
+    try {
+      await db.exec(
+        `INSERT OR IGNORE INTO users (id, role, name, email, is_active, created_at) VALUES ('sibin-admin-001', 'sibin_admin', 'Shubhan Raj', 'shubhanraj2002@gmail.com', 1, CURRENT_TIMESTAMP)`
+      );
+    } catch (e) { }
 
     return { success: true, message: "Migration applied successfully" };
   } catch (error: any) {

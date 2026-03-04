@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "../../../db";
-import { tickets, users } from "../../../db/schema";
+import { tickets, users, organizations } from "../../../db/schema";
 import { desc, eq } from "drizzle-orm";
 import UpdateStatusSelect from "./UpdateStatusSelect";
 import UpdateLinkInput from "./UpdateLinkInput";
@@ -19,9 +19,11 @@ async function fetchTickets() {
         const allTickets = await db.select({
             ticket: tickets,
             user: users,
+            orgName: organizations.name,
         })
             .from(tickets)
             .innerJoin(users, eq(tickets.userId, users.id))
+            .leftJoin(organizations, eq(users.organizationId, organizations.id))
             .orderBy(desc(tickets.createdAt))
             .all();
 
@@ -88,11 +90,11 @@ export default async function AdminDashboardPage() {
                                         </td>
                                     </tr>
                                 ) : (
-                                    allTickets.map(({ ticket, user }) => (
+                                    allTickets.map(({ ticket, user, orgName }) => (
                                         <tr key={ticket.id}>
                                             <td>
                                                 <div className="font-medium">{user.name}</div>
-                                                <div className="text-xs opacity-60">{user.organizationName}</div>
+                                                <div className="text-xs opacity-60">{orgName ?? "—"}</div>
                                             </td>
                                             <td>
                                                 <div className="font-medium">{ticket.title}</div>

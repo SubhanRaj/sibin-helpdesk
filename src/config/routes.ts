@@ -6,6 +6,12 @@
 export const ROUTES = {
 	// Public routes
 	HOME: "/",
+
+	// Auth routes
+	SIGN_IN: "/sign-in",
+	SIGN_UP: "/sign-up",
+	ONBOARDING: "/onboarding",
+	AUTH_REDIRECT: "/auth/redirect",
 	
 	// Admin routes
 	ADMIN: {
