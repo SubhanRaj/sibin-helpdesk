@@ -40,6 +40,7 @@
 			"binding": "sibin_helpdesk_db",
 			"database_name": "sibin-helpdesk-db",
 			"database_id": "0d45ef78-4a29-4599-b88e-d27442229642",
+			"migrations_dir": "drizzle/migrations",
 			"remote": true
 		}
 	]
