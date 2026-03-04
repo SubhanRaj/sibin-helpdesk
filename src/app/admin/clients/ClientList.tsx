@@ -1,12 +1,13 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState, useTransition } from "react";
 import { createClientUserAction, updateClientStatusAction } from "@/actions/adminActions";
 
 export default function ClientList({ clients, organizations }: { clients: any[], organizations: any[] }) {
     const modalRef = useRef<HTMLDialogElement>(null);
     const [state, formAction, isPending] = useActionState(createClientUserAction, null);
     const [searchQuery, setSearchQuery] = useState("");
+    const [isPendingStatus, startTransition] = useTransition();
 
     useEffect(() => {
         if (state?.success) {
@@ -64,10 +65,13 @@ export default function ClientList({ clients, organizations }: { clients: any[],
                                 </td>
                                 <td>
                                     <button
-                                        onClick={() => updateClientStatusAction(client.id, !client.isActive)}
+                                        onClick={() => startTransition(async () => {
+                                            await updateClientStatusAction(client.id, !client.isActive);
+                                        })}
                                         className={`btn btn-sm ${client.isActive ? "btn-error btn-outline" : "btn-success"}`}
+                                        disabled={isPendingStatus}
                                     >
-                                        {client.isActive ? "Restrict Login" : "Allow Login"}
+                                        {isPendingStatus ? <span className="loading loading-spinner loading-xs"></span> : (client.isActive ? "Restrict Login" : "Allow Login")}
                                     </button>
                                 </td>
                             </tr>

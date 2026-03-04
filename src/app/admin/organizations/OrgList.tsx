@@ -1,11 +1,12 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useTransition } from "react";
 import { createOrganizationAction, updateOrgStatusAction } from "@/actions/adminActions";
 
 export default function OrgList({ organizations }: { organizations: any[] }) {
     const modalRef = useRef<HTMLDialogElement>(null);
     const [state, formAction, isPending] = useActionState(createOrganizationAction, null);
+    const [isPendingStatus, startTransition] = useTransition();
 
     useEffect(() => {
         if (state?.success) {
@@ -44,10 +45,13 @@ export default function OrgList({ organizations }: { organizations: any[] }) {
                                 </td>
                                 <td>
                                     <button
-                                        onClick={() => updateOrgStatusAction(org.id, !org.isActive)}
+                                        onClick={() => startTransition(async () => {
+                                            await updateOrgStatusAction(org.id, !org.isActive);
+                                        })}
                                         className={`btn btn-sm ${org.isActive ? "btn-error btn-outline" : "btn-success"}`}
+                                        disabled={isPendingStatus}
                                     >
-                                        {org.isActive ? "Restrict" : "Activate"}
+                                        {isPendingStatus ? <span className="loading loading-spinner loading-xs"></span> : (org.isActive ? "Restrict" : "Activate")}
                                     </button>
                                 </td>
                             </tr>
