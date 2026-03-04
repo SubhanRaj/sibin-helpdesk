@@ -49,7 +49,7 @@ body {
 .textarea:focus-within,
 .select:focus,
 .select:focus-within {
-	outline-width: 1px !important;
-	outline-offset: 1px !important;
+	outline: none !important;
 	box-shadow: none !important;
+	border-color: oklch(var(--p)) !important;
 }
