@@ -1,47 +1,27 @@
-# OpenNext Starter
+# Sibin Support Desk
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Project Overview
+A lightweight, high-performance IT support ticket tracking system for Sibin Tech Solutions. This platform allows our government and corporate clients to easily raise service requests for their IT needs, track complaint statuses, and enables our team to manage issues efficiently. It also lays the groundwork for initiating remote support sessions (e.g., via Helpwire).
 
-## Getting Started
+## Architecture & Tech Stack
+* **Framework:** Next.js 14+ (App Router)
+* **Styling:** Tailwind CSS + daisyUI 
+* **Database:** Cloudflare D1 (Serverless SQLite)
+* **ORM:** Drizzle ORM
+* **Deployment:** Cloudflare Workers (via `@opennextjs/cloudflare`)
 
-Read the documentation at https://opennext.js.org/cloudflare.
+## Core Features (MVP)
+### 1. Client Portal
+* **Ticket Creation:** Streamlined form to raise a new IT support ticket (Fields: Client Name, Organization/Department, Issue Title, Detailed Description, Priority Level).
+* **Status Tracking:** Dashboard to view the status of previously submitted tickets (Open, In Progress, Resolved).
 
-## Develop
+### 2. Admin Dashboard
+* **Centralized Management:** Secure view for Sibin Tech Solutions administrators to view and filter all incoming complaints.
+* **Workflow:** Ability to update ticket statuses and add internal notes.
+* **Remote Support Integration:** Dedicated input field to attach a "Helpwire Remote Session Link" so clients can join a remote support session directly from their ticket view.
 
-Run the Next.js development server:
+## Local Development Setup
 
-```bash
-npm run dev
-# or similar package manager command
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-## Preview
-
-Preview the application locally on the Cloudflare runtime:
-
-```bash
-npm run preview
-# or similar package manager command
-```
-
-## Deploy
-
-Deploy the application to Cloudflare:
-
-```bash
-npm run deploy
-# or similar package manager command
-```
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Install Dependencies:**
+   ```bash
+   npm install

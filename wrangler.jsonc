@@ -34,7 +34,15 @@
 	],
 	"observability": {
 		"enabled": true
-	}
+	},
+	"d1_databases": [
+		{
+			"binding": "sibin_helpdesk_db",
+			"database_name": "sibin-helpdesk-db",
+			"database_id": "0d45ef78-4a29-4599-b88e-d27442229642",
+			"remote": true
+		}
+	]
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
