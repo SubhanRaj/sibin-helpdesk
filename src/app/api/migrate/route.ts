@@ -81,7 +81,13 @@ async function migrateDatabase() {
         `UPDATE users SET role = 'sibin_admin', name = 'Shubhan Raj', is_active = 1 WHERE email = 'shubhanraj2002@gmail.com'`
       );
     } catch (e) { }
-    // INSERT as fallback for fresh installs
+    // INSERT as fallback for fresh installs (include organization_name for legacy DB schema compatibility)
+    try {
+      await db.exec(
+        `INSERT OR IGNORE INTO users (id, role, name, organization_name, email, is_active, created_at) VALUES ('sibin-admin-001', 'sibin_admin', 'Shubhan Raj', 'Sibin Tech Solutions', 'shubhanraj2002@gmail.com', 1, CURRENT_TIMESTAMP)`
+      );
+    } catch (e) { }
+    // Fallback for new DB schema (no organization_name column)
     try {
       await db.exec(
         `INSERT OR IGNORE INTO users (id, role, name, email, is_active, created_at) VALUES ('sibin-admin-001', 'sibin_admin', 'Shubhan Raj', 'shubhanraj2002@gmail.com', 1, CURRENT_TIMESTAMP)`
