@@ -7,7 +7,7 @@ export default function FaviconUpdater() {
 		// Fetch the favicon URL from the API
 		fetch('/api/favicon')
 			.then((res) => res.json())
-			.then((data) => {
+			.then((data: any) => {
 				// Update or create the favicon link
 				let faviconLink = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
 				
