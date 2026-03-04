@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 
 async function fetchOrganizations() {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         const db = getDb(env as any);
         return await db.select().from(organizations).orderBy(desc(organizations.createdAt));
     } catch (err) {

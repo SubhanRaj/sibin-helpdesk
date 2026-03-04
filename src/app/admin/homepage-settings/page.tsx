@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 async function fetchSettings() {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         const db = getDb(env as any);
         const settings = await db.select().from(homepageSettings).all();
         return settings[0] || null;

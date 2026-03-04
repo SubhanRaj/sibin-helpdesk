@@ -28,7 +28,7 @@ async function getOrCreateDefaultUser(db: ReturnType<typeof getDb>) {
 
 export async function createTicketAction(prevState: any, formData: FormData) {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         // @ts-ignore - env type might need casting depending on build setup
         const db = getDb(env as any);
 
@@ -80,7 +80,7 @@ export async function createTicketAction(prevState: any, formData: FormData) {
 
 export async function updateTicketStatusAction(ticketId: string, status: "open" | "in-progress" | "resolved") {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         const db = getDb(env as any);
 
         await db.update(tickets)
@@ -98,7 +98,7 @@ export async function updateTicketStatusAction(ticketId: string, status: "open" 
 
 export async function updateTicketLinkAction(ticketId: string, helpwireLink: string) {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         const db = getDb(env as any);
 
         await db.update(tickets)

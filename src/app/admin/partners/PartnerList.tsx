@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useTransition } from "react";
 import { useActionState } from "react";
+import { useRouter } from "next/navigation";
 import { createPartnerAction, updatePartnerAction, deletePartnerAction } from "../../../actions/adminActions";
 
 export default function PartnerList({ initialPartners }: any) {
+    const router = useRouter();
     const [partners, setPartners] = useState(initialPartners || []);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
@@ -22,35 +24,33 @@ export default function PartnerList({ initialPartners }: any) {
         { success: false }
     );
 
+    useEffect(() => {
+        setPartners(initialPartners || []);
+    }, [initialPartners]);
+
     // Close modal when creation is successful
     useEffect(() => {
         if (createState.success) {
             setShowModal(false);
+            router.refresh();
         }
-    }, [createState.success]);
+    }, [createState.success, router]);
 
     // Close modal when update is successful
     useEffect(() => {
         if (updateState.success) {
             setEditingId(null);
+            router.refresh();
         }
+    }, [updateState.success, router]);
 
     const handleDelete = (id: string) => {
         if (confirm("Are you sure you want to delete this partner?")) {
             startTransition(async () => {
                 await deletePartnerAction(id);
-                setPartners(partners.filter((p: any) => p.id !== id));
+                setPartners((prev: any[]) => prev.filter((p: any) => p.id !== id));
+                router.refresh();
             });
-        }
-    };
-    }, [updateState.success]);
-
-
-
-    const handleDelete = async (id: string) => {
-        if (confirm("Are you sure you want to delete this partner?")) {
-            await deletePartnerAction(id);
-            setPartners(partners.filter((p: any) => p.id !== id));
         }
     };
 
@@ -108,8 +108,8 @@ export default function PartnerList({ initialPartners }: any) {
                                 <button type="button" onClick={() => setShowModal(false)} className="btn btn-ghost">
                                     Cancel
                                 </button>
-                                <button type="submit" className="btn btn-primary">
-                                    Add Partner
+                                <button type="submit" className="btn btn-primary" disabled={isPending}>
+                                    {isPending ? <span className="loading loading-spinner loading-xs"></span> : "Add Partner"}
                                 </button>
                             </div>
                         </form>
@@ -169,8 +169,8 @@ export default function PartnerList({ initialPartners }: any) {
                                             <button type="button" onClick={() => setEditingId(null)} className="btn btn-ghost">
                                                 Cancel
                                             </button>
-                                            <button type="submit" className="btn btn-primary">
-                                                Update Partner
+                                            <button type="submit" className="btn btn-primary" disabled={isPending}>
+                                                {isPending ? <span className="loading loading-spinner loading-xs"></span> : "Update Partner"}
                                             </button>
                                         </div>
                                     </div>
@@ -226,6 +226,7 @@ export default function PartnerList({ initialPartners }: any) {
                                                 <button
                                                     onClick={() => handleDelete(partner.id)}
                                                     className="btn btn-xs btn-ghost hover:bg-error/10 text-error"
+                                                    disabled={isPending}
                                                 >
                                                     Delete
                                                 </button>

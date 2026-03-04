@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 async function fetchTickets() {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         const db = getDb(env as any);
 
         const allTickets = await db.select({

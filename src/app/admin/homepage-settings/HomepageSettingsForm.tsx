@@ -118,16 +118,16 @@ export default function HomepageSettingsForm({ currentSettings }: any) {
                         <div>
                             <p className="text-xs font-semibold text-base-content/50 uppercase">Header Preview</p>
                             <p className="text-base-content/70 mt-1">
-                                <span className="text-base-content/60">{state.headerTitle || "Your Trusted Partner in"}</span>
+                                <span className="text-base-content/60">{currentSettings?.headerTitle || "Your Trusted Partner in"}</span>
                                 <br />
                                 <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-500">
-                                    {state.headerHighlight || "IT Infrastructure"}
+                                    {currentSettings?.headerHighlight || "IT Infrastructure"}
                                 </span>
                             </p>
                         </div>
                         <div>
                             <p className="text-xs font-semibold text-base-content/50 uppercase">Footer Preview</p>
-                            <p className="text-sm text-base-content/70 mt-1">{state.footerText || "© 2025 Sibin Tech Solutions. All rights reserved."}</p>
+                            <p className="text-sm text-base-content/70 mt-1">{currentSettings?.footerText || "© 2025 Sibin Tech Solutions. All rights reserved."}</p>
                         </div>
                     </div>
 

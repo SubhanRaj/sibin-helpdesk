@@ -9,7 +9,7 @@ import { randomUUID } from "crypto";
 
 export async function createOrganizationAction(prevState: any, formData: FormData) {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         // @ts-ignore
         const db = getDb(env as any);
 
@@ -37,7 +37,7 @@ export async function createOrganizationAction(prevState: any, formData: FormDat
 
 export async function updateOrgStatusAction(orgId: string, isActive: boolean) {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         // @ts-ignore
         const db = getDb(env as any);
 
@@ -55,7 +55,7 @@ export async function updateOrgStatusAction(orgId: string, isActive: boolean) {
 
 export async function createClientUserAction(prevState: any, formData: FormData) {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         // @ts-ignore
         const db = getDb(env as any);
 
@@ -87,7 +87,7 @@ export async function createClientUserAction(prevState: any, formData: FormData)
 
 export async function updateClientStatusAction(userId: string, isActive: boolean) {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         // @ts-ignore
         const db = getDb(env as any);
 
@@ -107,7 +107,7 @@ export async function updateClientStatusAction(userId: string, isActive: boolean
 
 export async function createPartnerAction(prevState: any, formData: FormData) {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         // @ts-ignore
         const db = getDb(env as any);
 
@@ -141,7 +141,7 @@ export async function createPartnerAction(prevState: any, formData: FormData) {
 
 export async function updatePartnerAction(partnerId: string, prevState: any, formData: FormData) {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         // @ts-ignore
         const db = getDb(env as any);
 
@@ -170,7 +170,7 @@ export async function updatePartnerAction(partnerId: string, prevState: any, for
 
 export async function deletePartnerAction(partnerId: string) {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         // @ts-ignore
         const db = getDb(env as any);
 
@@ -189,7 +189,7 @@ export async function deletePartnerAction(partnerId: string) {
 
 export async function updateHomepageSettingsAction(prevState: any, formData: FormData) {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         // @ts-ignore
         const db = getDb(env as any);
 

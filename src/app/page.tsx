@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 async function fetchData() {
 	try {
-		const { env } = await getCloudflareContext();
+		const { env } = await getCloudflareContext({ async: true });
 		const db = getDb(env as any);
 
 		const allPartners = await db.select().from(partners).where(eq(partners.isActive, true)).all();

@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 
 async function fetchClientsData() {
     try {
-        const { env } = await getCloudflareContext();
+        const { env } = await getCloudflareContext({ async: true });
         const db = getDb(env as any);
 
         const clientsData = await db.select({

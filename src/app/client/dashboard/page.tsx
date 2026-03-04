@@ -18,7 +18,7 @@ async function getDefaultUserId(db: any) {
 }
 
 export default async function ClientDashboardPage() {
-    const { env } = await getCloudflareContext();
+    const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env as any);
 
     const userId = await getDefaultUserId(db);
