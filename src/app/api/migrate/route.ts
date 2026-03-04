@@ -1,15 +1,14 @@
-
 import { NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
-export async function GET() {
+async function migrateDatabase() {
   try {
     const { env } = await getCloudflareContext();
     // @ts-ignore
     const db = env.sibin_helpdesk_db;
 
     if (!db) {
-      return NextResponse.json({ error: "No D1 binding found" }, { status: 500 });
+      throw new Error("No D1 binding found");
     }
 
     try { await db.exec("ALTER TABLE users ADD COLUMN organization_id text REFERENCES organizations(id)"); } catch (e) { }
@@ -53,7 +52,16 @@ export async function GET() {
       await db.exec(sanitize);
     }
 
-    return NextResponse.json({ success: true, message: "Migration applied successfully" });
+    return { success: true, message: "Migration applied successfully" };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+}
+
+export async function GET() {
+  try {
+    const result = await migrateDatabase();
+    return NextResponse.json(result);
   } catch (error: any) {
     return NextResponse.json({ error: error.message, stack: error.stack }, { status: 500 });
   }
