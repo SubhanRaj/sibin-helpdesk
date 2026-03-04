@@ -7,7 +7,7 @@ export default function ClientLayout({
 }) {
     return (
         <div className="min-h-screen bg-base-200">
-            <div className="navbar bg-base-100 shadow-sm px-8">
+            <div className="navbar sticky top-4 z-50 mx-auto w-[95%] max-w-7xl bg-base-100/70 backdrop-blur-lg backdrop-saturate-150 rounded-3xl shadow-lg border border-base-200/50 px-8">
                 <div className="flex-1">
                     <a className="text-xl font-bold">Sibin Tech Solutions - Client Portal</a>
                 </div>
@@ -18,7 +18,7 @@ export default function ClientLayout({
                     <button className="btn btn-ghost btn-sm">Logout</button>
                 </div>
             </div>
-            <main className="p-8">
+            <main className="pt-24 pb-8">
                 {children}
             </main>
         </div>

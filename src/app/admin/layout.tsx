@@ -7,7 +7,7 @@ export default function AdminLayout({
 }) {
     return (
         <div className="min-h-screen bg-base-200">
-            <div className="navbar bg-neutral text-neutral-content shadow-sm px-8">
+            <div className="navbar sticky top-4 z-50 mx-auto w-[95%] max-w-7xl bg-base-100/70 backdrop-blur-lg backdrop-saturate-150 rounded-3xl shadow-lg border border-base-200/50 px-8">
                 <div className="flex-1 gap-2 flex items-center">
                     <a className="text-xl font-bold mr-4">Sibin Tech Solutions - Admin</a>
                     <div className="hidden lg:flex join">
@@ -23,7 +23,7 @@ export default function AdminLayout({
                     <button className="btn btn-ghost btn-sm">Logout</button>
                 </div>
             </div>
-            <main className="p-8">
+            <main className="pt-24 pb-8">
                 {children}
             </main>
         </div>
